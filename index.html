@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Octopus AI — Scale Your Business with AI Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --black: #000000;
+      --surface: #080808;
+      --card: #0d0d0d;
+      --card-hover: #111111;
+      --border: #1c1c1c;
+      --border-hover: #2e2e2e;
+      --gold: #ffaa00;
+      --gold-dark: #cc7700;
+      --gold-dim: rgba(255, 170, 0, 0.12);
+      --gold-glow: rgba(255, 170, 0, 0.07);
+      --white: #ffffff;
+      --muted: rgba(255, 255, 255, 0.48);
+      --muted-dark: rgba(255, 255, 255, 0.22);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080808;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3c3c3c;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY UTILITIES
+    ============================================================ */
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    section {
+      position: relative;
+    }
+
+    /* Gold divider line */
+    .gold-line {
+      display: block;
+      width: 40px;
+      height: 1.5px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav.scrolled {
+      background: rgba(0, 0, 0, 0.85);
+      border-color: var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+    }
+
+    .logo-text {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .logo-text span {
+      color: var(--gold);
+    }
+
+    /* Nav links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    /* CTA button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #000;
+      padding: 11px 24px;
+    }
+
+    .btn-gold:hover {
+      background: #ffc433;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(255, 170, 0, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 11px 24px;
+      border: 1px solid var(--border-hover);
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-outline-gold {
+      background: transparent;
+      color: var(--gold);
+      padding: 14px 32px;
+      border: 1px solid var(--gold);
+      font-size: 14px;
+    }
+
+    .btn-outline-gold:hover {
+      background: var(--gold-dim);
+      box-shadow: 0 0 28px rgba(255, 170, 0, 0.18);
+    }
+
+    .btn-gold-lg {
+      background: var(--gold);
+      color: #000;
+      padding: 16px 40px;
+      font-size: 15px;
+    }
+
+    .btn-gold-lg:hover {
+      background: #ffc433;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(255, 170, 0, 0.3);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--white);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.97);
+      backdrop-filter: blur(24px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      z-index: 999;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      font-size: 28px;
+      font-family: var(--font-display);
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle grid background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+
+    /* Gold glow horizon at bottom */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 300px;
+      background: radial-gradient(ellipse at center bottom, rgba(255, 170, 0, 0.22) 0%, rgba(255, 170, 0, 0.06) 45%, transparent 75%);
+      pointer-events: none;
+      filter: blur(8px);
+    }
+
+    .hero-content {
+      max-width: 780px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease 0.35s forwards;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease 0.65s forwards;
+    }
+
+    .hero-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted-dark);
+      letter-spacing: 0.03em;
+      opacity: 0;
+      animation: fadeSlideUp 0.9s ease 0.8s forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: none;
+      }
+
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+    }
+
+    /* ============================================================
+       TRUSTED BY
+    ============================================================ */
+    #trusted {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .trusted-inner {
+      display: flex;
+      align-items: center;
+      gap: 52px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .trusted-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted-dark);
+      white-space: nowrap;
+    }
+
+    .logo-strip {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .company-logo {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.22);
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .company-logo:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    #services {
+      padding: 110px 0;
+    }
+
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 36px;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .service-card:hover {
+      border-color: rgba(255, 170, 0, 0.35);
+      background: var(--card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 170, 0, 0.06);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 28px;
+      color: var(--gold);
+    }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .service-desc {
+      font-size: 0.93rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 24px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+
+    .service-link:hover {
+      gap: 10px;
+    }
+
+    /* ============================================================
+       PROCESS
+    ============================================================ */
+    #process {
+      padding: 110px 0;
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Gold glow in process section */
+    #process::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(255, 170, 0, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+      margin-top: 64px;
+    }
+
+    /* Connecting line */
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: calc(12.5% + 8px);
+      right: calc(12.5% + 8px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 10%, var(--border) 90%, transparent);
+    }
+
+    .process-step {
+      padding: 0 20px;
+      position: relative;
+      text-align: center;
+    }
+
+    .step-number-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--black);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .process-step:hover .step-number {
+      border-color: var(--gold);
+      box-shadow: 0 0 24px rgba(255, 170, 0, 0.2);
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       STATS / RESULTS
+    ============================================================ */
+    #results {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    #results::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 250px;
+      background: radial-gradient(ellipse at center bottom, rgba(255, 170, 0, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 28px;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(255, 170, 0, 0.25);
+      box-shadow: 0 0 40px rgba(255, 170, 0, 0.05);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    #testimonials {
+      padding: 110px 0;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .testimonial-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 36px;
+      transition: border-color 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(255, 170, 0, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 24px;
+    }
+
+    .star {
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 32px;
+    }
+
+    .testimonial-person {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 170, 0, 0.2);
+    }
+
+    .person-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .person-role {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    /* ============================================================
+       FINAL CTA
+    ============================================================ */
+    #contact {
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Large gold glow centered */
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(255, 170, 0, 0.1) 0%, rgba(255, 170, 0, 0.04) 35%, transparent 70%);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    #contact::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 170, 0, 0.3) 50%, transparent);
+    }
+
+    .cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 22px;
+      color: var(--white);
+    }
+
+    .cta-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .cta-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 44px;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-note {
+      margin-top: 20px;
+      font-size: 11.5px;
+      color: var(--muted-dark);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr);
+      gap: 48px;
+      margin-bottom: 52px;
+    }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-top: 16px;
+      max-width: 240px;
+    }
+
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--muted-dark);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 12px;
+      color: var(--muted-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--muted);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+
+      .process-grid::before {
+        display: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      .nav-links,
+      .nav-cta-desktop {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+      }
+
+      .trusted-inner {
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .hero-headline {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ============================================================
+       CONTACT MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 620px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 48px 44px;
+      position: relative;
+      transform: translateY(28px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--muted);
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .modal-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .modal-header {
+      margin-bottom: 28px;
+    }
+
+    .modal-header .eyebrow {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .modal-header h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .modal-header p {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    /* Form elements */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 12px 15px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.22);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(255, 170, 0, 0.55);
+      box-shadow: 0 0 0 3px rgba(255, 170, 0, 0.09);
+    }
+
+    .form-group select {
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    .form-group select option {
+      background: #111;
+      color: #fff;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-submit {
+      width: 100%;
+      justify-content: center;
+      margin-top: 22px;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .form-submit:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .form-footer-note {
+      text-align: center;
+      color: var(--muted-dark);
+      font-size: 0.78rem;
+      margin-top: 14px;
+    }
+
+    .form-message {
+      border-radius: 8px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      padding: 13px 16px;
+      display: none;
+    }
+
+    .form-message.success {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
+      display: block;
+    }
+
+    .form-message.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      display: block;
+    }
+
+    @media (max-width: 540px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-card {
+        padding: 32px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+
+        <a href="#" class="logo">
+          <!-- Octopus logo mark -->
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none"
+              stroke-linejoin="round" />
+            <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+            <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+            <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+            <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+            <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+            <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00" />
+            <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00" />
+          </svg>
+          <span class="logo-text">Octopus<span> AI</span></span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <a href="#" class="btn btn-gold nav-cta-desktop" onclick="openModal(); return false;">Get Started</a>
+
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="closeMobileMenu()">Services</a>
+    <a href="#process" onclick="closeMobileMenu()">Process</a>
+    <a href="#results" onclick="closeMobileMenu()">Results</a>
+    <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+    <a href="#" class="btn btn-gold" onclick="closeMobileMenu(); openModal(); return false;">Get Started</a>
+  </div>
+
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content">
+
+        <div class="hero-eyebrow">
+          <span class="eyebrow">AI Systems for Modern Business</span>
+        </div>
+
+        <h1 class="hero-headline">
+          We Build <em>AI Systems</em><br>That Scale Your Business
+        </h1>
+
+        <p class="hero-sub">
+          Custom software and intelligent AI integration for companies ready to operate at the next level. Stop running
+          manual processes. Start running systems.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#" class="btn btn-gold-lg" onclick="openModal(); return false;">
+            Start Your Transformation
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="#process" class="btn btn-outline">See How It Works</a>
+        </div>
+
+        <p class="hero-note">No retainers. No lock-in. Just results.</p>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TRUSTED BY
+  ============================================================ -->
+  <section id="trusted">
+    <div class="container">
+      <div class="trusted-inner reveal">
+        <span class="trusted-label">Trusted by</span>
+        <div class="logo-strip">
+          <span class="company-logo">Meridian Group</span>
+          <span class="company-logo">Apex Ventures</span>
+          <span class="company-logo">Orion Health</span>
+          <span class="company-logo">Vantage Capital</span>
+          <span class="company-logo">Helix Logistics</span>
+          <span class="company-logo">Stratos Labs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="services">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="gold-line"></span>
+        <span class="eyebrow">What We Build</span>
+        <h2 class="section-title" style="margin-top:16px; margin-bottom:18px;">
+          Intelligent systems for<br><em>every layer of your business</em>
+        </h2>
+        <p class="section-subtitle">
+          From custom-built software to deep AI integration, we design and deploy the infrastructure your business needs
+          to scale without headcount.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- Service 1 -->
+        <div class="service-card reveal reveal-delay-1">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="10" width="40" height="28" rx="4" stroke="currentColor" stroke-width="1.5" />
+            <path d="M16 20l-6 4 6 4M32 20l6 4-6 4M22 32l4-16" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <h3 class="service-title">Custom Software Development</h3>
+          <p class="service-desc">
+            We don't use off-the-shelf tools for custom problems. We architect and build bespoke software that fits your
+            exact workflow — from internal dashboards to client-facing platforms that give you a real competitive edge.
+          </p>
+          <a href="#" class="service-link" onclick="openModal(); return false;">
+            Learn more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card reveal reveal-delay-2">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="24" cy="8" r="3" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="38" cy="16" r="3" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="38" cy="32" r="3" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="24" cy="40" r="3" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="10" cy="32" r="3" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="10" cy="16" r="3" stroke="currentColor" stroke-width="1.5" />
+            <path d="M24 16v-5M35 19l-4-3M35 29l-4 3M24 32v5M13 29l4 3M13 19l4-3" stroke="currentColor"
+              stroke-width="1.5" />
+          </svg>
+          <h3 class="service-title">AI Integration</h3>
+          <p class="service-desc">
+            We embed intelligent AI directly into your existing systems and workflows. From natural language interfaces
+            to predictive analytics engines, we make your operations genuinely smarter — not just automated, but
+            adaptive.
+          </p>
+          <a href="#" class="service-link" onclick="openModal(); return false;">
+            Learn more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card reveal reveal-delay-3">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 6a18 18 0 0 1 0 36A18 18 0 0 1 24 6z" stroke="currentColor" stroke-width="1.5" />
+            <path d="M24 14v6l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M10 24h4M34 24h4M24 10v-4M24 42v-4" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" />
+            <circle cx="24" cy="24" r="3" fill="currentColor" />
+          </svg>
+          <h3 class="service-title">Process Automation</h3>
+          <p class="service-desc">
+            Every hour your team spends on repetitive tasks is an hour not spent growing the business. We map your
+            manual bottlenecks and replace them with end-to-end automated workflows that run 24/7 without error.
+          </p>
+          <a href="#" class="service-link" onclick="openModal(); return false;">
+            Learn more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PROCESS
+  ============================================================ -->
+  <section id="process">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="gold-line"></span>
+        <span class="eyebrow">How We Work</span>
+        <h2 class="section-title" style="margin-top:16px; margin-bottom:18px;">
+          From conversation to <em>deployed system</em>
+        </h2>
+        <p class="section-subtitle">
+          A proven engagement model that moves fast, stays focused, and delivers results your team can actually use on
+          day one.
+        </p>
+      </div>
+
+      <div class="process-grid">
+
+        <div class="process-step reveal reveal-delay-1">
+          <div class="step-number-wrap">
+            <div class="step-number">01</div>
+          </div>
+          <div class="step-label">Step One</div>
+          <div class="step-title">Discovery</div>
+          <p class="step-desc">We spend time in your world — understanding your operations, bottlenecks, team structure,
+            and ambitions before recommending anything.</p>
+        </div>
+
+        <div class="process-step reveal reveal-delay-2">
+          <div class="step-number-wrap">
+            <div class="step-number">02</div>
+          </div>
+          <div class="step-label">Step Two</div>
+          <div class="step-title">Architecture</div>
+          <p class="step-desc">We design the full systems blueprint. Every integration point, data flow, and automation
+            path is mapped before we write a single line of code.</p>
+        </div>
+
+        <div class="process-step reveal reveal-delay-3">
+          <div class="step-number-wrap">
+            <div class="step-number">03</div>
+          </div>
+          <div class="step-label">Step Three</div>
+          <div class="step-title">Build & Integrate</div>
+          <p class="step-desc">Rapid, iterative development with continuous client feedback. You see progress weekly.
+            Nothing ships without your sign-off.</p>
+        </div>
+
+        <div class="process-step reveal reveal-delay-4">
+          <div class="step-number-wrap">
+            <div class="step-number">04</div>
+          </div>
+          <div class="step-label">Step Four</div>
+          <div class="step-title">Deploy & Scale</div>
+          <p class="step-desc">We launch your systems, train your team, and monitor performance. As you grow, your
+            systems grow with you — no rebuilding required.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       STATS / RESULTS
+  ============================================================ -->
+  <section id="results">
+    <div class="container">
+
+      <div class="section-header reveal"
+        style="text-align:center; align-items:center; display:flex; flex-direction:column;">
+        <span class="gold-line" style="margin:0 auto 20px;"></span>
+        <span class="eyebrow">By the Numbers</span>
+        <h2 class="section-title" style="margin-top:16px; margin-bottom:18px; text-align:center;">
+          Results that <em>speak for themselves</em>
+        </h2>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card reveal reveal-delay-1">
+          <span class="stat-number" data-target="200" data-suffix="+">0+</span>
+          <span class="stat-label">AI systems built and deployed across industries</span>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <span class="stat-number" data-target="10" data-suffix="x">0x</span>
+          <span class="stat-label">Average productivity gain for our clients</span>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <span class="stat-number" data-prefix="$" data-target="4" data-suffix="M+">$0M+</span>
+          <span class="stat-label">In operational savings generated annually</span>
+        </div>
+        <div class="stat-card reveal reveal-delay-4">
+          <span class="stat-number" data-target="48" data-suffix="h">0h</span>
+          <span class="stat-label">Average time to first working prototype</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TESTIMONIALS
+  ============================================================ -->
+  <section id="testimonials">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="gold-line"></span>
+        <span class="eyebrow">Client Stories</span>
+        <h2 class="section-title" style="margin-top:16px; margin-bottom:18px;">
+          What our clients say after<br><em>going live</em>
+        </h2>
+      </div>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+              class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="testimonial-quote">
+            "Within 60 days of launch, we had eliminated an entire department's worth of manual reporting. The ROI was
+            immediate. Octopus AI didn't just build software — they fundamentally changed how we operate."
+          </p>
+          <div class="testimonial-person">
+            <div class="avatar">MR</div>
+            <div>
+              <div class="person-name">Marcus Reynolds</div>
+              <div class="person-role">CEO, Apex Ventures</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+              class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="testimonial-quote">
+            "We'd tried three different automation agencies before Octopus. None of them understood our actual
+            workflows. Octopus AI took the time to truly understand our business before touching a keyboard. The
+            difference was night and day."
+          </p>
+          <div class="testimonial-person">
+            <div class="avatar">SP</div>
+            <div>
+              <div class="person-name">Sofia Patel</div>
+              <div class="person-role">Founder, Stratos Labs</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+              class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="testimonial-quote">
+            "Our intake process went from 4 days to 4 hours. Patient satisfaction scores jumped 28 points in the first
+            quarter. I recommend Octopus AI to every healthcare operator I know who wants to modernize without the
+            chaos."
+          </p>
+          <div class="testimonial-person">
+            <div class="avatar">DK</div>
+            <div>
+              <div class="person-name">Dr. Daniel Kim</div>
+              <div class="person-role">COO, Orion Health</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FINAL CTA
+  ============================================================ -->
+  <section id="contact">
+    <div class="container">
+      <div class="cta-inner">
+
+        <div class="reveal">
+          <span class="eyebrow" style="display:block; margin-bottom:24px;">Ready to Begin?</span>
+        </div>
+
+        <h2 class="cta-headline reveal">
+          Ready to become an<br><em>AI-Ready business?</em>
+        </h2>
+
+        <p class="cta-sub reveal">
+          The companies that win the next decade are building AI into their core right now. Every month you wait, the
+          gap widens. Let's close it together — starting with a single conversation.
+        </p>
+
+        <div class="cta-actions reveal">
+          <a href="#" class="btn btn-gold-lg" onclick="openModal(); return false;">
+            Schedule Your Discovery Call
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="#" class="btn btn-outline-gold" onclick="openModal(); return false;">Send Us a Message</a>
+        </div>
+
+        <p class="cta-note reveal">Free 30-minute discovery call · No commitment required · Response within 24 hours</p>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none"
+                stroke-linejoin="round" />
+              <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+              <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+              <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round"
+                fill="none" />
+              <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+              <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round"
+                fill="none" />
+              <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00" />
+              <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00" />
+            </svg>
+            <span class="logo-text">Octopus<span> AI</span></span>
+          </a>
+          <p>We build AI systems and custom software that transform how businesses operate, compete, and grow.</p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="#services">Custom Software</a></li>
+            <li><a href="#services">AI Integration</a></li>
+            <li><a href="#services">Process Automation</a></li>
+            <li><a href="#process">Our Process</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#results">Results</a></li>
+            <li><a href="#testimonials">Client Stories</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Connect</div>
+          <ul class="footer-links">
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter / X</a></li>
+            <li><a href="#">hello@octopusai.com</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 Octopus AI. All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    // ── Sticky nav ──────────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Mobile menu ─────────────────────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── Scroll reveal ────────────────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── Counter animation ────────────────────────────────────────
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.target, 10);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1600;
+      const start = performance.now();
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(eased * target);
+        el.textContent = prefix + current + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
+
+    // ── Contact Modal ────────────────────────────────────────────
+    function openModal() {
+      document.getElementById('contact-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('cf-name').focus(), 320);
+    }
+
+    function closeModal() {
+      document.getElementById('contact-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close when clicking the backdrop (event delegation — safe regardless of DOM order)
+    document.addEventListener('click', function (e) {
+      if (e.target.id === 'contact-modal') closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ── Form submission (event delegation) ────────────────────────
+    document.addEventListener('submit', async function (e) {
+      if (e.target.id !== 'contact-form') return;
+      e.preventDefault();
+      const form = e.target;
+
+      const btn = document.getElementById('form-submit');
+      const msgEl = document.getElementById('form-message');
+      const arrow = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+      const payload = {
+        name: form.elements['name'].value.trim(),
+        email: form.elements['email'].value.trim(),
+        company: form.elements['company'].value.trim(),
+        service: form.elements['service'].value,
+        message: form.elements['message'].value.trim(),
+      };
+
+      // Client-side check
+      if (!payload.name || !payload.email || !payload.message) {
+        showMsg('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      // Loading state
+      btn.disabled = true;
+      btn.innerHTML = 'Sending…';
+      msgEl.className = 'form-message'; // reset
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          showMsg("✓ Message sent! We'll be in touch within 24 hours.", 'success');
+          form.reset();
+        } else {
+          showMsg(data.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch (_) {
+        showMsg('Network error — please try again or email hello@octopusai.com directly.', 'error');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = 'Send Message ' + arrow;
+    });
+
+    function showMsg(text, type) {
+      const el = document.getElementById('form-message');
+      el.textContent = text;
+      el.className = 'form-message ' + type;
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+
+  <!-- ============================================================
+       CONTACT MODAL
+  ============================================================ -->
+  <div id="contact-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+
+      <button class="modal-close" onclick="closeModal()" aria-label="Close dialog">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <span class="eyebrow">Get In Touch</span>
+        <h3 id="modal-title">Let's build something great</h3>
+        <p>Tell us about your project — we would like to see how we can help you</p>
+      </div>
+
+      <div id="form-message" class="form-message" role="alert"></div>
+
+      <form id="contact-form" novalidate>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="cf-name">Your Name <span style="color:var(--gold)">*</span></label>
+            <input id="cf-name" name="name" type="text" placeholder="John Smith" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Email Address <span style="color:var(--gold)">*</span></label>
+            <input id="cf-email" name="email" type="email" placeholder="john@company.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="cf-company">Company</label>
+            <input id="cf-company" name="company" type="text" placeholder="Your Company" autocomplete="organization">
+          </div>
+          <div class="form-group">
+            <label for="cf-service">I'm interested in</label>
+            <select id="cf-service" name="service">
+              <option value="">Select a service…</option>
+              <option value="Custom Software Development">Custom Software Development</option>
+              <option value="AI Integration">AI Integration</option>
+              <option value="Process Automation">Process Automation</option>
+              <option value="Not sure yet">Not sure yet — let's talk</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cf-message">Tell us about your project <span style="color:var(--gold)">*</span></label>
+          <textarea id="cf-message" name="message" placeholder="Describe your challenge or goal…" required></textarea>
+        </div>
+
+        <button type="submit" id="form-submit" class="btn btn-gold-lg form-submit">
+          Send Message
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <p class="form-footer-note">Free 30-min discovery call · No commitment · Response within 24 hours</p>
+
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
