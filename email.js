@@ -19,9 +19,9 @@ async function sendNotification({ name, email, company, service, message }) {
   const to = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
 
   await t.sendMail({
-    from: `"Octopus AI Website" <${process.env.SMTP_USER}>`,
+    from: `"AI4BUSINESS Website" <${process.env.SMTP_USER}>`,
     to,
-    subject: `🦑 New Lead: ${name}${company ? ` — ${company}` : ''}`,
+    subject: `🤖 New Lead: ${name}${company ? ` — ${company}` : ''}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:32px;background:#f7f7f7;border-radius:8px">
         <h2 style="color:#cc7700;margin:0 0 24px;font-size:20px">New Contact Form Submission</h2>
@@ -59,22 +59,22 @@ async function sendConfirmation({ name, email }) {
   const t = createTransporter();
 
   await t.sendMail({
-    from: `"Octopus AI" <${process.env.SMTP_USER}>`,
+    from: `"AI4BUSINESS" <${process.env.SMTP_USER}>`,
     to: email,
-    subject: `We got your message — Octopus AI`,
+    subject: `We got your message — AI4BUSINESS`,
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;background:#000;color:#fff;padding:48px;border-radius:12px">
-        <p style="color:#ffaa00;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;margin:0 0 28px">Octopus AI</p>
+        <p style="color:#ffaa00;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;margin:0 0 28px">AI4BUSINESS</p>
         <h1 style="font-size:26px;font-weight:500;margin:0 0 16px;color:#fff">Thanks, ${name}!</h1>
         <p style="color:rgba(255,255,255,0.65);line-height:1.75;margin:0 0 16px">
           We've received your message and will get back to you within <strong style="color:#fff">24 hours</strong>.
         </p>
         <p style="color:rgba(255,255,255,0.65);line-height:1.75;margin:0 0 40px">
           In the meantime, reach us directly at
-          <a href="mailto:hello@octopusai.com" style="color:#ffaa00;text-decoration:none">hello@octopusai.com</a>.
+          <a href="mailto:hello@ai4business.com" style="color:#ffaa00;text-decoration:none">hello@ai4business.com</a>.
         </p>
         <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:0 0 24px">
-        <p style="color:rgba(255,255,255,0.25);font-size:12px;margin:0">© 2025 Octopus AI · All rights reserved</p>
+        <p style="color:rgba(255,255,255,0.25);font-size:12px;margin:0">© 2025 AI4BUSINESS · All rights reserved</p>
       </div>
     `,
   });

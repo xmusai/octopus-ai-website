@@ -1,5 +1,5 @@
-const express   = require('express');
-const router    = express.Router();
+const express = require('express');
+const router = express.Router();
 const { getDB } = require('../db');
 
 // ── Auth middleware ───────────────────────────────────────────────
@@ -15,13 +15,13 @@ function requireAuth(req, res, next) {
 router.get('/stats', requireAuth, (_req, res) => {
   const db = getDB();
   res.json({
-    total:     db.prepare('SELECT COUNT(*) as n FROM leads').get().n,
-    new:       db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='new'").get().n,
+    total: db.prepare('SELECT COUNT(*) as n FROM leads').get().n,
+    new: db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='new'").get().n,
     contacted: db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='contacted'").get().n,
     qualified: db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='qualified'").get().n,
-    closed:    db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='closed'").get().n,
-    today:     db.prepare("SELECT COUNT(*) as n FROM leads WHERE DATE(created_at)=DATE('now')").get().n,
-    week:      db.prepare("SELECT COUNT(*) as n FROM leads WHERE created_at >= DATE('now','-7 days')").get().n,
+    closed: db.prepare("SELECT COUNT(*) as n FROM leads WHERE status='closed'").get().n,
+    today: db.prepare("SELECT COUNT(*) as n FROM leads WHERE DATE(created_at)=DATE('now')").get().n,
+    week: db.prepare("SELECT COUNT(*) as n FROM leads WHERE created_at >= DATE('now','-7 days')").get().n,
   });
 });
 
@@ -31,8 +31,8 @@ router.get('/leads', requireAuth, (req, res) => {
   const { status, page = 1, limit = 50 } = req.query;
   const offset = (Number(page) - 1) * Number(limit);
 
-  const where  = status ? 'WHERE status = ?' : '';
-  const args   = status ? [status] : [];
+  const where = status ? 'WHERE status = ?' : '';
+  const args = status ? [status] : [];
 
   const leads = db
     .prepare(`SELECT * FROM leads ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`)
@@ -51,7 +51,7 @@ router.patch('/leads/:id', requireAuth, (req, res) => {
   const vals = [];
 
   if (status !== undefined) { sets.push('status = ?'); vals.push(status); }
-  if (notes  !== undefined) { sets.push('notes = ?');  vals.push(notes);  }
+  if (notes !== undefined) { sets.push('notes = ?'); vals.push(notes); }
   if (!sets.length) return res.status(400).json({ error: 'Nothing to update.' });
 
   sets.push('updated_at = CURRENT_TIMESTAMP');
@@ -69,9 +69,9 @@ router.delete('/leads/:id', requireAuth, (req, res) => {
 
 // ── Export CSV ────────────────────────────────────────────────────
 router.get('/export', requireAuth, (_req, res) => {
-  const db   = getDB();
+  const db = getDB();
   const rows = db.prepare('SELECT * FROM leads ORDER BY created_at DESC').all();
-  const esc  = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
 
   const csv = [
     'ID,Name,Email,Company,Service,Message,Status,Notes,IP,Created At',
@@ -84,7 +84,7 @@ router.get('/export', requireAuth, (_req, res) => {
   ].join('\n');
 
   res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', `attachment; filename="octopusai-leads-${Date.now()}.csv"`);
+  res.setHeader('Content-Disposition', `attachment; filename="ai4business-leads-${Date.now()}.csv"`);
   res.send(csv);
 });
 

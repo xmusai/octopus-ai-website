@@ -1,7 +1,7 @@
 {
-  "name": "octopus-ai-website",
+  "name": "ai4business-website",
   "version": "1.0.0",
-  "description": "Octopus AI — Marketing Website with Backend",
+  "description": "AI4BUSINESS — Marketing Website with Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -1,16 +1,16 @@
 require('dotenv').config();
 
 const express = require('express');
-const helmet  = require('helmet');
-const cors    = require('cors');
-const path    = require('path');
+const helmet = require('helmet');
+const cors = require('cors');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 
 const { initDB } = require('./db');
 const contactRoute = require('./routes/contact');
-const adminRoute   = require('./routes/admin');
+const adminRoute = require('./routes/admin');
 
-const app  = express();
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Database ──────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ const contactLimiter = rateLimit({
 
 // ── API routes ────────────────────────────────────────────────────
 app.use('/api/contact', contactLimiter, contactRoute);
-app.use('/api/admin',   adminRoute);
+app.use('/api/admin', adminRoute);
 
 // ── Admin panel ───────────────────────────────────────────────────
 app.get('/admin', (_req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
@@ -48,6 +48,6 @@ app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
 // ── Start ─────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`\n🦑  Octopus AI server  →  http://localhost:${PORT}`);
+  console.log(`\n🤖  AI4BUSINESS server  →  http://localhost:${PORT}`);
   console.log(`📊  Admin dashboard   →  http://localhost:${PORT}/admin\n`);
 });

@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Octopus AI</title>
+  <title>Admin — AI4BUSINESS</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
-      --black:   #000;
+      --black: #000;
       --surface: #080808;
-      --card:    #0d0d0d;
-      --border:  #1c1c1c;
-      --gold:    #ffaa00;
+      --card: #0d0d0d;
+      --border: #1c1c1c;
+      --gold: #ffaa00;
       --gold-dk: #cc7700;
-      --muted:   rgba(255,255,255,0.45);
-      --font:    'Outfit', system-ui, sans-serif;
+      --muted: rgba(255, 255, 255, 0.45);
+      --font: 'Outfit', system-ui, sans-serif;
     }
 
     body {
@@ -60,7 +67,9 @@
       letter-spacing: -0.02em;
     }
 
-    .login-logo .ai { color: var(--gold); }
+    .login-logo .ai {
+      color: var(--gold);
+    }
 
     .login-card h1 {
       font-size: 20px;
@@ -88,7 +97,9 @@
       transition: border-color 0.2s;
     }
 
-    .login-input:focus { border-color: rgba(255,170,0,0.5); }
+    .login-input:focus {
+      border-color: rgba(255, 170, 0, 0.5);
+    }
 
     .login-btn {
       width: 100%;
@@ -104,7 +115,9 @@
       transition: background 0.2s;
     }
 
-    .login-btn:hover { background: var(--gold-dk); }
+    .login-btn:hover {
+      background: var(--gold-dk);
+    }
 
     .login-error {
       color: #f87171;
@@ -113,7 +126,9 @@
     }
 
     /* ── Dashboard ─────────────────────────────────────────────── */
-    #dashboard { display: none; }
+    #dashboard {
+      display: none;
+    }
 
     .topbar {
       background: var(--surface);
@@ -136,7 +151,9 @@
       font-size: 15px;
     }
 
-    .topbar-brand .ai { color: var(--gold); }
+    .topbar-brand .ai {
+      color: var(--gold);
+    }
 
     .topbar-badge {
       background: var(--gold);
@@ -149,7 +166,11 @@
       letter-spacing: 0.05em;
     }
 
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
     .btn-sm {
       border-radius: 6px;
@@ -166,16 +187,27 @@
       background: var(--gold);
       color: #000;
     }
-    .btn-gold-sm:hover { background: var(--gold-dk); }
+
+    .btn-gold-sm:hover {
+      background: var(--gold-dk);
+    }
 
     .btn-outline-sm {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
     }
-    .btn-outline-sm:hover { border-color: #444; color: #fff; }
 
-    main { padding: 32px; max-width: 1280px; margin: 0 auto; }
+    .btn-outline-sm:hover {
+      border-color: #444;
+      color: #fff;
+    }
+
+    main {
+      padding: 32px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
 
     /* ── Stats ──────────────────────────────────────────────────── */
     .stats-grid {
@@ -206,7 +238,9 @@
       line-height: 1;
     }
 
-    .stat-value.gold { color: var(--gold); }
+    .stat-value.gold {
+      color: var(--gold);
+    }
 
     /* ── Leads table ─────────────────────────────────────────────── */
     .table-header {
@@ -242,7 +276,8 @@
       transition: all 0.15s;
     }
 
-    .tab:hover, .tab.active {
+    .tab:hover,
+    .tab.active {
       background: var(--gold);
       border-color: var(--gold);
       color: #000;
@@ -262,7 +297,9 @@
       min-width: 800px;
     }
 
-    thead { background: var(--surface); }
+    thead {
+      background: var(--surface);
+    }
 
     th {
       color: var(--muted);
@@ -281,12 +318,28 @@
       vertical-align: top;
     }
 
-    tr:hover td { background: rgba(255,255,255,0.02); }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
 
-    .td-name { font-weight: 500; }
-    .td-email { color: var(--gold); font-size: 13px; }
-    .td-company { color: var(--muted); font-size: 13px; }
-    .td-service { font-size: 12px; color: rgba(255,255,255,0.6); }
+    .td-name {
+      font-weight: 500;
+    }
+
+    .td-email {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .td-company {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .td-service {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
 
     .td-message {
       max-width: 240px;
@@ -299,7 +352,9 @@
       cursor: pointer;
     }
 
-    .td-message.expanded { -webkit-line-clamp: unset; }
+    .td-message.expanded {
+      -webkit-line-clamp: unset;
+    }
 
     .status-select {
       background: var(--surface);
@@ -314,9 +369,13 @@
       transition: border-color 0.2s;
     }
 
-    .status-select:focus { border-color: rgba(255,170,0,0.5); }
+    .status-select:focus {
+      border-color: rgba(255, 170, 0, 0.5);
+    }
 
-    .status-select option { background: #111; }
+    .status-select option {
+      background: #111;
+    }
 
     .status-badge {
       display: inline-block;
@@ -328,14 +387,35 @@
       letter-spacing: 0.04em;
     }
 
-    .badge-new       { background: rgba(255,170,0,0.15); color: var(--gold); }
-    .badge-contacted { background: rgba(99,179,237,0.15); color: #63b3ed; }
-    .badge-qualified { background: rgba(72,187,120,0.15); color: #68d391; }
-    .badge-closed    { background: rgba(160,174,192,0.12); color: #a0aec0; }
+    .badge-new {
+      background: rgba(255, 170, 0, 0.15);
+      color: var(--gold);
+    }
 
-    .td-date { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .badge-contacted {
+      background: rgba(99, 179, 237, 0.15);
+      color: #63b3ed;
+    }
 
-    .td-actions { white-space: nowrap; }
+    .badge-qualified {
+      background: rgba(72, 187, 120, 0.15);
+      color: #68d391;
+    }
+
+    .badge-closed {
+      background: rgba(160, 174, 192, 0.12);
+      color: #a0aec0;
+    }
+
+    .td-date {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .td-actions {
+      white-space: nowrap;
+    }
 
     .action-btn {
       background: transparent;
@@ -349,7 +429,10 @@
       font-family: var(--font);
     }
 
-    .action-btn:hover { border-color: #f87171; color: #f87171; }
+    .action-btn:hover {
+      border-color: #f87171;
+      color: #f87171;
+    }
 
     .notes-input {
       background: var(--surface);
@@ -366,7 +449,10 @@
       width: 180px;
     }
 
-    .notes-input:focus { border-color: rgba(255,170,0,0.4); color: #fff; }
+    .notes-input:focus {
+      border-color: rgba(255, 170, 0, 0.4);
+      color: #fff;
+    }
 
     .empty-state {
       padding: 64px 32px;
@@ -374,7 +460,11 @@
       color: var(--muted);
     }
 
-    .empty-state h3 { font-size: 16px; margin-bottom: 8px; color: rgba(255,255,255,0.6); }
+    .empty-state h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.6);
+    }
 
     .pagination {
       display: flex;
@@ -384,7 +474,10 @@
       margin-top: 16px;
     }
 
-    .page-info { color: var(--muted); font-size: 13px; }
+    .page-info {
+      color: var(--muted);
+      font-size: 13px;
+    }
 
     /* ── Toast ───────────────────────────────────────────────────── */
     #toast {
@@ -402,207 +495,239 @@
       z-index: 9999;
     }
 
-    #toast.show { transform: translateY(0); }
-    #toast.success { border-color: rgba(72,187,120,0.4); }
-    #toast.error   { border-color: rgba(248,113,113,0.4); }
+    #toast.show {
+      transform: translateY(0);
+    }
+
+    #toast.success {
+      border-color: rgba(72, 187, 120, 0.4);
+    }
+
+    #toast.error {
+      border-color: rgba(248, 113, 113, 0.4);
+    }
   </style>
 </head>
+
 <body>
 
-<!-- ── Login ───────────────────────────────────────────────────── -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-        <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-        <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00"/>
-        <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00"/>
-      </svg>
-      <span>Octopus<span class="ai"> AI</span></span>
-    </div>
-    <h1>Admin Dashboard</h1>
-    <p>Enter your admin token to continue</p>
-    <form id="login-form">
-      <input
-        id="admin-token"
-        class="login-input"
-        type="password"
-        placeholder="Admin token"
-        autocomplete="current-password"
-        required
-      >
-      <button type="submit" class="login-btn">Access Dashboard</button>
-      <p id="login-error" class="login-error" hidden>Invalid token. Check your .env file.</p>
-    </form>
-  </div>
-</div>
-
-<!-- ── Dashboard ───────────────────────────────────────────────── -->
-<div id="dashboard">
-  <header class="topbar">
-    <div class="topbar-brand">
-      <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
-        <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-        <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00"/>
-        <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00"/>
-      </svg>
-      <span>Octopus<span class="ai"> AI</span></span>
-      <span class="topbar-badge">Admin</span>
-    </div>
-    <div class="topbar-right">
-      <button class="btn-sm btn-gold-sm" id="export-btn">Export CSV</button>
-      <a href="/" class="btn-sm btn-outline-sm" style="text-decoration:none">View Site</a>
-      <button class="btn-sm btn-outline-sm" id="logout-btn">Log Out</button>
-    </div>
-  </header>
-
-  <main>
-    <!-- Stats -->
-    <div class="stats-grid" id="stats-grid">
-      <div class="stat-card"><div class="stat-label">Total Leads</div><div class="stat-value gold" id="s-total">—</div></div>
-      <div class="stat-card"><div class="stat-label">New</div><div class="stat-value" id="s-new">—</div></div>
-      <div class="stat-card"><div class="stat-label">Contacted</div><div class="stat-value" id="s-contacted">—</div></div>
-      <div class="stat-card"><div class="stat-label">Qualified</div><div class="stat-value" id="s-qualified">—</div></div>
-      <div class="stat-card"><div class="stat-label">Closed</div><div class="stat-value" id="s-closed">—</div></div>
-      <div class="stat-card"><div class="stat-label">Today</div><div class="stat-value" id="s-today">—</div></div>
-      <div class="stat-card"><div class="stat-label">This Week</div><div class="stat-value" id="s-week">—</div></div>
-    </div>
-
-    <!-- Leads -->
-    <div class="table-header">
-      <h2>Leads</h2>
-      <div class="filter-tabs">
-        <button class="tab active" data-status="">All</button>
-        <button class="tab" data-status="new">New</button>
-        <button class="tab" data-status="contacted">Contacted</button>
-        <button class="tab" data-status="qualified">Qualified</button>
-        <button class="tab" data-status="closed">Closed</button>
+  <!-- ── Login ───────────────────────────────────────────────────── -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+          <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none"
+            stroke-linejoin="round" />
+          <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00" />
+          <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00" />
+        </svg>
+        <span>AI4<span class="ai">BUSINESS</span></span>
       </div>
+      <h1>Admin Dashboard</h1>
+      <p>Enter your admin token to continue</p>
+      <form id="login-form">
+        <input id="admin-token" class="login-input" type="password" placeholder="Admin token"
+          autocomplete="current-password" required>
+        <button type="submit" class="login-btn">Access Dashboard</button>
+        <p id="login-error" class="login-error" hidden>Invalid token. Check your .env file.</p>
+      </form>
     </div>
+  </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Contact</th>
-            <th>Service</th>
-            <th>Message</th>
-            <th>Status</th>
-            <th>Notes</th>
-            <th>Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="leads-body">
-          <tr><td colspan="8"><div class="empty-state"><h3>Loading…</h3></div></td></tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- ── Dashboard ───────────────────────────────────────────────── -->
+  <div id="dashboard">
+    <header class="topbar">
+      <div class="topbar-brand">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+          <path d="M7 15 C7 7 25 7 25 15 L24 18 L8 18 Z" stroke="#ffaa00" stroke-width="1.5" fill="none"
+            stroke-linejoin="round" />
+          <path d="M8.5 18 Q6 22 8.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M12 19 Q10 23 12.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M16 19.5 Q15.5 24 16 28" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M20 19 Q22 23 19.5 27" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <path d="M23.5 18 Q26 22 23.5 26" stroke="#ffaa00" stroke-width="1.3" stroke-linecap="round" fill="none" />
+          <circle cx="12.5" cy="13" r="1.5" fill="#ffaa00" />
+          <circle cx="19.5" cy="13" r="1.5" fill="#ffaa00" />
+        </svg>
+        <span>AI4<span class="ai">BUSINESS</span></span>
+        <span class="topbar-badge">Admin</span>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-sm btn-gold-sm" id="export-btn">Export CSV</button>
+        <a href="/" class="btn-sm btn-outline-sm" style="text-decoration:none">View Site</a>
+        <button class="btn-sm btn-outline-sm" id="logout-btn">Log Out</button>
+      </div>
+    </header>
 
-    <div class="pagination" id="pagination"></div>
-  </main>
-</div>
+    <main>
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Leads</div>
+          <div class="stat-value gold" id="s-total">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">New</div>
+          <div class="stat-value" id="s-new">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Contacted</div>
+          <div class="stat-value" id="s-contacted">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Qualified</div>
+          <div class="stat-value" id="s-qualified">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Closed</div>
+          <div class="stat-value" id="s-closed">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today</div>
+          <div class="stat-value" id="s-today">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value" id="s-week">—</div>
+        </div>
+      </div>
 
-<div id="toast"></div>
+      <!-- Leads -->
+      <div class="table-header">
+        <h2>Leads</h2>
+        <div class="filter-tabs">
+          <button class="tab active" data-status="">All</button>
+          <button class="tab" data-status="new">New</button>
+          <button class="tab" data-status="contacted">Contacted</button>
+          <button class="tab" data-status="qualified">Qualified</button>
+          <button class="tab" data-status="closed">Closed</button>
+        </div>
+      </div>
 
-<script>
-  let TOKEN = '';
-  let currentStatus = '';
-  let currentPage = 1;
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Contact</th>
+              <th>Service</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Notes</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="leads-body">
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <h3>Loading…</h3>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-  // ── Login ─────────────────────────────────────────────────────
-  document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const token = document.getElementById('admin-token').value.trim();
-    const res = await fetch('/api/admin/stats', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
-      TOKEN = token;
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      loadStats();
-      loadLeads();
-    } else {
-      document.getElementById('login-error').hidden = false;
-    }
-  });
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
 
-  // ── Logout ────────────────────────────────────────────────────
-  document.getElementById('logout-btn').addEventListener('click', () => {
-    TOKEN = '';
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('admin-token').value = '';
-  });
+  <div id="toast"></div>
 
-  // ── Export ────────────────────────────────────────────────────
-  document.getElementById('export-btn').addEventListener('click', () => {
-    window.location.href = `/api/admin/export?_t=${TOKEN}`;
-    // We pass token via query param only for the download link — server uses Authorization header normally
-    fetch('/api/admin/export', { headers: { Authorization: `Bearer ${TOKEN}` } })
-      .then(r => r.blob())
-      .then(blob => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `octopusai-leads-${Date.now()}.csv`;
-        a.click();
+  <script>
+    let TOKEN = '';
+    let currentStatus = '';
+    let currentPage = 1;
+
+    // ── Login ─────────────────────────────────────────────────────
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = document.getElementById('admin-token').value.trim();
+      const res = await fetch('/api/admin/stats', {
+        headers: { Authorization: `Bearer ${token}` },
       });
-  });
-
-  // ── Filter tabs ───────────────────────────────────────────────
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentStatus = tab.dataset.status;
-      currentPage = 1;
-      loadLeads();
+      if (res.ok) {
+        TOKEN = token;
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadStats();
+        loadLeads();
+      } else {
+        document.getElementById('login-error').hidden = false;
+      }
     });
-  });
 
-  // ── Load stats ────────────────────────────────────────────────
-  async function loadStats() {
-    const res  = await fetch('/api/admin/stats', { headers: { Authorization: `Bearer ${TOKEN}` } });
-    const data = await res.json();
-    document.getElementById('s-total').textContent     = data.total;
-    document.getElementById('s-new').textContent       = data.new;
-    document.getElementById('s-contacted').textContent = data.contacted;
-    document.getElementById('s-qualified').textContent = data.qualified;
-    document.getElementById('s-closed').textContent    = data.closed;
-    document.getElementById('s-today').textContent     = data.today;
-    document.getElementById('s-week').textContent      = data.week;
-  }
+    // ── Logout ────────────────────────────────────────────────────
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      TOKEN = '';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('admin-token').value = '';
+    });
 
-  // ── Load leads ────────────────────────────────────────────────
-  async function loadLeads() {
-    const url = `/api/admin/leads?page=${currentPage}&limit=25${currentStatus ? `&status=${currentStatus}` : ''}`;
-    const res  = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
-    const { leads, total } = await res.json();
-    renderLeads(leads, total);
-  }
+    // ── Export ────────────────────────────────────────────────────
+    document.getElementById('export-btn').addEventListener('click', () => {
+      window.location.href = `/api/admin/export?_t=${TOKEN}`;
+      // We pass token via query param only for the download link — server uses Authorization header normally
+      fetch('/api/admin/export', { headers: { Authorization: `Bearer ${TOKEN}` } })
+        .then(r => r.blob())
+        .then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `ai4business-leads-${Date.now()}.csv`;
+          a.click();
+        });
+    });
 
-  function renderLeads(leads, total) {
-    const tbody = document.getElementById('leads-body');
+    // ── Filter tabs ───────────────────────────────────────────────
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentStatus = tab.dataset.status;
+        currentPage = 1;
+        loadLeads();
+      });
+    });
 
-    if (!leads.length) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><h3>No leads yet</h3><p>Submissions from the contact form will appear here.</p></div></td></tr>`;
-      document.getElementById('pagination').innerHTML = '';
-      return;
+    // ── Load stats ────────────────────────────────────────────────
+    async function loadStats() {
+      const res = await fetch('/api/admin/stats', { headers: { Authorization: `Bearer ${TOKEN}` } });
+      const data = await res.json();
+      document.getElementById('s-total').textContent = data.total;
+      document.getElementById('s-new').textContent = data.new;
+      document.getElementById('s-contacted').textContent = data.contacted;
+      document.getElementById('s-qualified').textContent = data.qualified;
+      document.getElementById('s-closed').textContent = data.closed;
+      document.getElementById('s-today').textContent = data.today;
+      document.getElementById('s-week').textContent = data.week;
     }
 
-    tbody.innerHTML = leads.map(l => `
+    // ── Load leads ────────────────────────────────────────────────
+    async function loadLeads() {
+      const url = `/api/admin/leads?page=${currentPage}&limit=25${currentStatus ? `&status=${currentStatus}` : ''}`;
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+      const { leads, total } = await res.json();
+      renderLeads(leads, total);
+    }
+
+    function renderLeads(leads, total) {
+      const tbody = document.getElementById('leads-body');
+
+      if (!leads.length) {
+        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><h3>No leads yet</h3><p>Submissions from the contact form will appear here.</p></div></td></tr>`;
+        document.getElementById('pagination').innerHTML = '';
+        return;
+      }
+
+      tbody.innerHTML = leads.map(l => `
       <tr data-id="${l.id}">
         <td style="color:var(--muted);font-size:12px">#${l.id}</td>
         <td>
@@ -616,10 +741,10 @@
         </td>
         <td>
           <select class="status-select" onchange="updateLead(${l.id}, {status: this.value})">
-            <option value="new"       ${l.status==='new'       ? 'selected':''}>New</option>
-            <option value="contacted" ${l.status==='contacted' ? 'selected':''}>Contacted</option>
-            <option value="qualified" ${l.status==='qualified' ? 'selected':''}>Qualified</option>
-            <option value="closed"    ${l.status==='closed'    ? 'selected':''}>Closed</option>
+            <option value="new"       ${l.status === 'new' ? 'selected' : ''}>New</option>
+            <option value="contacted" ${l.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+            <option value="qualified" ${l.status === 'qualified' ? 'selected' : ''}>Qualified</option>
+            <option value="closed"    ${l.status === 'closed' ? 'selected' : ''}>Closed</option>
           </select>
         </td>
         <td>
@@ -639,77 +764,78 @@
       </tr>
     `).join('');
 
-    // Pagination
-    const totalPages = Math.ceil(total / 25);
-    const pag = document.getElementById('pagination');
-    if (totalPages <= 1) { pag.innerHTML = ''; return; }
-    pag.innerHTML = `
+      // Pagination
+      const totalPages = Math.ceil(total / 25);
+      const pag = document.getElementById('pagination');
+      if (totalPages <= 1) { pag.innerHTML = ''; return; }
+      pag.innerHTML = `
       <span class="page-info">Page ${currentPage} of ${totalPages} (${total} leads)</span>
-      <button class="btn-sm btn-outline-sm" onclick="changePage(${currentPage - 1})" ${currentPage===1 ? 'disabled':''}>← Prev</button>
-      <button class="btn-sm btn-outline-sm" onclick="changePage(${currentPage + 1})" ${currentPage===totalPages ? 'disabled':''}>Next →</button>
+      <button class="btn-sm btn-outline-sm" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>
+      <button class="btn-sm btn-outline-sm" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>
     `;
-  }
-
-  function changePage(p) {
-    currentPage = p;
-    loadLeads();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // ── Update lead ───────────────────────────────────────────────
-  async function updateLead(id, data) {
-    const res = await fetch(`/api/admin/leads/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
-      showToast('Saved', 'success');
-      if (data.status) loadStats();
-    } else {
-      showToast('Failed to save', 'error');
     }
-  }
 
-  // ── Delete lead ───────────────────────────────────────────────
-  async function deleteLead(id, btn) {
-    if (!confirm('Delete this lead permanently?')) return;
-    const res = await fetch(`/api/admin/leads/${id}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    });
-    if (res.ok) {
-      btn.closest('tr').remove();
-      loadStats();
-      showToast('Lead deleted', 'success');
-    } else {
-      showToast('Failed to delete', 'error');
+    function changePage(p) {
+      currentPage = p;
+      loadLeads();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
 
-  // ── Helpers ───────────────────────────────────────────────────
-  function esc(str) {
-    return String(str ?? '')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+    // ── Update lead ───────────────────────────────────────────────
+    async function updateLead(id, data) {
+      const res = await fetch(`/api/admin/leads/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        showToast('Saved', 'success');
+        if (data.status) loadStats();
+      } else {
+        showToast('Failed to save', 'error');
+      }
+    }
 
-  function formatDate(str) {
-    const d = new Date(str);
-    return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' })
-      + '<br><span style="color:var(--muted)">'
-      + d.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' })
-      + '</span>';
-  }
+    // ── Delete lead ───────────────────────────────────────────────
+    async function deleteLead(id, btn) {
+      if (!confirm('Delete this lead permanently?')) return;
+      const res = await fetch(`/api/admin/leads/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      });
+      if (res.ok) {
+        btn.closest('tr').remove();
+        loadStats();
+        showToast('Lead deleted', 'success');
+      } else {
+        showToast('Failed to delete', 'error');
+      }
+    }
 
-  let toastTimer;
-  function showToast(msg, type = 'success') {
-    const el = document.getElementById('toast');
-    el.textContent = type === 'success' ? '✓ ' + msg : '✗ ' + msg;
-    el.className = 'show ' + type;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.className = '', 2500);
-  }
-</script>
+    // ── Helpers ───────────────────────────────────────────────────
+    function esc(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function formatDate(str) {
+      const d = new Date(str);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        + '<br><span style="color:var(--muted)">'
+        + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+        + '</span>';
+    }
+
+    let toastTimer;
+    function showToast(msg, type = 'success') {
+      const el = document.getElementById('toast');
+      el.textContent = type === 'success' ? '✓ ' + msg : '✗ ' + msg;
+      el.className = 'show ' + type;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.className = '', 2500);
+    }
+  </script>
 
 </body>
+
 </html>

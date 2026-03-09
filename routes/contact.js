@@ -1,5 +1,5 @@
-const express   = require('express');
-const router    = express.Router();
+const express = require('express');
+const router = express.Router();
 const validator = require('validator');
 const { getDB } = require('../db');
 const { sendNotification, sendConfirmation } = require('../email');
@@ -23,12 +23,12 @@ router.post('/', async (req, res) => {
 
     // ── Sanitise ──────────────────────────────────────────────────
     const lead = {
-      name:    validator.escape(name.trim()),
-      email:   validator.normalizeEmail(email.trim()) || email.trim(),
+      name: validator.escape(name.trim()),
+      email: validator.normalizeEmail(email.trim()) || email.trim(),
       company: validator.escape(company.trim()),
       service: service.trim().slice(0, 200),
       message: validator.escape(message.trim()),
-      ip:      (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim(),
+      ip: (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim(),
     };
 
     // ── Persist ───────────────────────────────────────────────────
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     });
   } catch (err) {
     console.error('[contact error]', err);
-    res.status(500).json({ error: 'Server error. Please try again or email us directly at hello@octopusai.com.' });
+    res.status(500).json({ error: 'Server error. Please try again or email us directly at hello@ai4business.com.' });
   }
 });
 
